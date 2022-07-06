@@ -14,32 +14,6 @@ clear
 
 PAM=$1
 
-
-if [ $PAM = "--ajuda" ] 2>/dev/null; then
-    echo "#======================================================================================#"
-    echo "# O Programa consulta a api do site wikipedia.org, em versão PT-BR                     #"
-    echo "# O primeiro input que ele necessita é o nome do país.                                 #"
-    echo "#======================================================================================#"
-    echo ""
-    echo "#======================================================================================#"
-    echo "# Para saber a versão do programa digite o comando abaixo                              #"
-    echo "# sh country.sh --version                                                              #"
-    echo "#======================================================================================#"
-fi
-
-if [ $PAM = "--version" ] 2>/dev/null; then
-    echo "#======================================================================================#"
-    echo "# Versão do Programa 1.0.0                                                             #"
-    echo "#======================================================================================#"
-    echo ""
-    echo "#======================================================================================#"
-    echo "# Para saber mais sobre o programa digite o comando                                    #"
-    echo "# sh country.sh --ajuda                                                                #"
-    echo "#======================================================================================#"
-fi
-
-clear
-
 if [ $(uname) = "Linux" ]; then
 
     sudo apt-get update -y > /dev/null 2> /dev/null && sudo apt-get upgrade -y > /dev/null 2> /dev/null
@@ -55,36 +29,59 @@ elif [ $(uname) = "Darwin" ]; then
     brew install coreutil > /dev/null 2> /dev/null && sudo apt-get upgrade -y > /dev/null 2> /dev/null
     #game
 fi
+if [ $PAM ]; then
+    if [ $PAM = "--ajuda" ] 2>/dev/null; then
+        echo "#======================================================================================#"
+        echo "# O Programa consulta a api do site wikipedia.org, em versão PT-BR                     #"
+        echo "# O primeiro input que ele necessita é o nome do país.                                 #"
+        echo "#======================================================================================#"
+        echo ""
+        echo "#======================================================================================#"
+        echo "# Para saber a versão do programa digite o comando abaixo                              #"
+        echo "# sh country.sh --version                                                              #"
+        echo "#======================================================================================#"
+    fi
 
+    if [ $PAM = "--version" ] 2>/dev/null; then
+        echo "#======================================================================================#"
+        echo "# Versão do Programa 1.0.0                                                             #"
+        echo "#======================================================================================#"
+        echo ""
+        echo "#======================================================================================#"
+        echo "# Para saber mais sobre o programa digite o comando                                    #"
+        echo "# sh country.sh --ajuda                                                                #"
+        echo "#======================================================================================#"
+    fi
+else
+    if [ country.sh ] 2>/dev/null; then
 
-if [ country.sh ] 2>/dev/null; then
+        read -p "Insira o nome do pais: " NAME
+        NAME_1=$(echo $NAME | sed -e "s/\b\(.\)/\u\1/g")
+        NAME_COUNTRY=$(echo $NAME_1 | sed 's/ /_/g')
 
-    read -p "Insira o nome do pais: " NAME
-    NAME_1=$(echo $NAME | sed -e "s/\b\(.\)/\u\1/g")
-    NAME_COUNTRY=$(echo $NAME_1 | sed 's/ /_/g')
-
-    RES=$(curl -s -L https://pt.wikipedia.org/wiki/$NAME_COUNTRY | grep -i "vertical-align:top" | sed "1, 5 d"  | sed "s/<[^>]*>/\n/g" | sed "1,2 d" | head -n1 | sed "s/\n//g")
-    RES_P=$(echo $RES | sed -e "s/\b\(.\)/\u\1/g")
-
-
-    if [ "$RES_P" = "Cidade Mais Populosa" ]; then
-        RES=$(curl -s -L https://pt.wikipedia.org/wiki/$NAME_COUNTRY  | grep -i "vertical-align:top" | sed "1, 5 d"  | sed "s/<[^>]*>/\n/g" | sed "1,5 d" | head -n1)
+        RES=$(curl -s -L https://pt.wikipedia.org/wiki/$NAME_COUNTRY | grep -i "vertical-align:top" | sed "1, 5 d"  | sed "s/<[^>]*>/\n/g" | sed "1,2 d" | head -n1 | sed "s/\n//g")
         RES_P=$(echo $RES | sed -e "s/\b\(.\)/\u\1/g")
-    fi
-
-    if [ "$RES_P" = "" ]; then
-        RES_P="Não conseguimos encontrar essa resposta!"
-    fi
 
 
-    echo "PAIS: $NAME_1"
-    echo "CAPITAL: $RES_P"
+        if [ "$RES_P" = "Cidade Mais Populosa" ]; then
+            RES=$(curl -s -L https://pt.wikipedia.org/wiki/$NAME_COUNTRY  | grep -i "vertical-align:top" | sed "1, 5 d"  | sed "s/<[^>]*>/\n/g" | sed "1,5 d" | head -n1)
+            RES_P=$(echo $RES | sed -e "s/\b\(.\)/\u\1/g")
+        fi
 
-    read -p "Deseja pesquisar novamente? (Y/n) " OPT
+        if [ "$RES_P" = "" ]; then
+            RES_P="Não conseguimos encontrar essa resposta!"
+        fi
 
-    if [ "$OPT" = "Y" -o "$OPT" = "y" -o "$OPT" = "" ]; then
-        sh country.sh
-    else
-        echo "Obrigado!"
+
+        echo "PAIS: $NAME_1"
+        echo "CAPITAL: $RES_P"
+
+        read -p "Deseja pesquisar novamente? (Y/n) " OPT
+
+        if [ "$OPT" = "Y" -o "$OPT" = "y" -o "$OPT" = "" ]; then
+            sh country.sh
+        else
+            echo "Obrigado!"
+        fi
     fi
 fi
