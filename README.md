@@ -18,10 +18,13 @@
 <p> out </p>
 
 ```
-#========================= COMANDO DE AJUDA ============================================================================#
-# * Este programa gere um arquivo compactado de backup de todo o diretório home do usuário atual.                       #
-# * Em caso de um backup já existir, ele automaticamente lhe pergunta se deseja sobreescrever ou cancelar o backup.     #
-# * Os backups são realizados automaticamente a cada 7 dias                                                             #
-# * Os arquivos de backup são de extensão 'tgz' e podem ser descompactados usando o tar                                 #
-========================================================================================================================#
+#======================================================================================#
+# O Programa consulta a api do site wikipedia.org, em versão PT-BR                     #
+# O primeiro input que ele necessita é o nome do país.                                 #
+#======================================================================================#
+
+#======================================================================================#
+# Para saber a versão do programa digite o comando abaixo                              #
+# sh country.sh --versao                                                               #
+#======================================================================================#
 ```

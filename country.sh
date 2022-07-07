@@ -38,11 +38,11 @@ if [ $PAM ]; then
         echo ""
         echo "#======================================================================================#"
         echo "# Para saber a versão do programa digite o comando abaixo                              #"
-        echo "# sh country.sh --version                                                              #"
+        echo "# sh country.sh --versao                                                               #"
         echo "#======================================================================================#"
     fi
 
-    if [ $PAM = "--version" ] 2>/dev/null; then
+    if [ $PAM = "--versao" ] 2>/dev/null; then
         NOW=$(git log -p -1 | grep -i Date:)
         VAL=$(git log --oneline | grep -i -c "v")
         AFTER=$(git log -p -2 | grep -i Date:)
