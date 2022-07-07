@@ -72,7 +72,7 @@ else
         RES_P=$(echo $RES | sed -e "s/\b\(.\)/\u\1/g")
 
 
-        if [ "$RES_P" = "Cidade Mais Populosa" -o "$RESP" = "Cidade mais populosa" ]; then
+        if [ "$RES_P" = "Cidade Mais Populosa" -o "$RES_P" = "Cidade mais populosa" ]; then
             RES=$(curl -s -L https://pt.wikipedia.org/wiki/$NAME_COUNTRY  | grep -i "vertical-align:top" | sed "1, 5 d"  | sed "s/<[^>]*>/\n/g" | sed "1,5 d" | head -n1)
             RES_P=$(echo $RES | sed -e "s/\b\(.\)/\u\1/g")
         fi
